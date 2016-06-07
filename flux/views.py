@@ -65,7 +65,12 @@ def hook_push(logger):
     ref = utils.get(data, 'ref', str)
     commit = utils.get(data, 'after', str)
   elif api == API_GITHUB:
-    owner = utils.get(data, 'repository.owner.name', str)
+    # XXX The owner username location in the payload seems to vary by events
+    # we should retrieve it intelligently based on the type of event?
+    try:
+        owner = utils.get(data, 'repository.owner.name', str)
+    except: 
+        owner = utils.get(data, 'repository.owner.login', str)
     name = utils.get(data, 'repository.name', str)
     ref = utils.get(data, 'ref', str)
     commit = utils.get(data, 'after', str)
