@@ -1,1 +1,6 @@
 *.py[cod]
+*.sqlite
+*.sw?
+venv/
+.cache
+__pycache__

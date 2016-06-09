@@ -21,6 +21,8 @@
 import io
 import functools
 import hashlib
+import hmac
+import json
 import logging
 import os
 import shlex
@@ -30,6 +32,7 @@ import uuid
 import zipfile
 
 from . import config
+from .constants import API_GOGS, API_GITHUB
 from urllib.parse import urlparse
 from flask import request, session, redirect, url_for, Response
 
@@ -82,7 +85,7 @@ def get(data, key, expect_type=None, default=None):
 
   try:
     return get_raise(data, key, expect_type)
-  except (TypeError, ValueError):
+  except (TypeError, ValueError, KeyError):
     return default
 
 
@@ -306,3 +309,16 @@ def strip_url_path(url):
   result = list(urllib.parse.urlparse(url))
   result[2] = ''
   return urllib.parse.urlunparse(result)
+
+
+def verify_secret(request, repo, api):
+  data = json.loads(request.data.decode('utf8'))
+  if api == API_GOGS:
+    print("repo.secret={} data.secret={}".format(repo.secret, get(data, 'secret')))
+    return repo.secret == get(data, 'secret')
+  elif api == API_GITHUB:
+    expected = hmac.new(bytes(repo.secret, 'utf-8'), request.data, hashlib.sha1).hexdigest()
+    secret = request.headers.get('X-Hub-Signature').replace('sha1=', '')
+    print("expected={}, got={}".format(expected, secret))
+    return expected == secret
+  return False  #  unsupported API, should raise something?

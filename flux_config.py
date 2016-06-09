@@ -4,19 +4,21 @@ This is the Flux configuration file.
 
 import os
 
-host = 'localhost'
-port = 4042
+root_dir = os.environ.get('FLUX_ROOT', os.path.dirname(os.path.abspath(__file__)))
+
+host = os.environ.get('FLUX_HOST', 'localhost')
+port = os.environ.get('FLUX_PORT', 4042)
 debug = True
 
 app_title = 'Flux CI'
-app_url = 'http://localhost:4042'
+app_url = os.environ.get('FLUX_APP_URL', 'http://{}:{}'.format(host, port))
 
 # Secret key required for HTTP session. Generate your for deployment!
 secret_key = 'ThAHy8oxRiNIQDBnVlNjEVY78fXdWHdi'
 
 # A valid SQLAlchemy database URL. Follow this link for more information:
 # http://docs.sqlalchemy.org/en/rel_1_0/core/engines.html#database-urls
-db_url = 'sqlite:///' + os.path.expanduser('~/flux/data.db')
+db_url = 'sqlite:///{}/db.sqlite'.format(root_dir)
 db_encoding = 'utf8'
 
 # Root username and password.
@@ -38,7 +40,7 @@ else:
 # The directory in which all repositories are cloned to
 # and the builds are executed in. The directory structure that
 # is created by flux is <owner>/<repo>/<build_num> .
-build_dir = os.path.expanduser('~/flux/builds')
+build_dir = '{}/builds'.format(root_dir)
 
 # Full path to the SSH identity file, or None to let SSH decide.
 ssh_identity_file = None

@@ -24,11 +24,9 @@ import uuid
 from . import app, config, utils
 from .build import enqueue, terminate_build
 from .models import Session, User, Repository, Build, get_target_for, get_public_key
+from .constants import API_GOGS, API_GITHUB
 from flask import request, session, redirect, url_for, render_template, abort
 from datetime import datetime
-
-API_GOGS = 'gogs'
-API_GITHUB = 'github'
 
 
 @app.route('/hook/push', methods=['POST'])
@@ -95,7 +93,7 @@ def hook_push(logger):
   if not repo:
     logger.error('PUSH event rejected (unknown repository)')
     return 400
-  if repo.secret != utils.get(data, 'secret'):
+  if not utils.verify_secret(request, repo, api):
     logger.error('PUSH event rejected (invalid secret)')
     return 400
   if not repo.check_accept_ref(ref):
