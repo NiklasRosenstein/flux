@@ -12,6 +12,15 @@ bad code execution.
 
 [View the full documentation ▸](https://niklasrosenstein.github.io/flux-ci)  
 
+## Development
+You can start flux-ci easiest with pipenv using the commands below.
+The command will run the `main.py` file. Just rerun the last command and changes are there.
+```
+PIPENV_VENV_IN_PROJECT=1 pipenv install --dev -e .
+pipenv run flux-ci --web
+```
+Currently you can also start flux-ci directly using `python -m flux.main` but the above is recommended. When starting directly you also have to deal with dependencies yourself.
+
 ## Screenshots
 
 <table>

@@ -9,3 +9,5 @@ overrides/
 venv/
 .venv/
 .env/
+Pipfile
+Pipfile.lock
