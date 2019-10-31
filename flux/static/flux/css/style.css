@@ -870,6 +870,13 @@ a .block:hover, .block-link .block:hover {
 	display: none;
 }
 
+.ext-link::after {
+	content: '\f08e';
+	display: inline-block;
+	font-family: fontello;
+	margin-left: .25rem;
+}
+
 /* footer */
 footer {
 	background-color: #ECEFF1;
@@ -952,6 +959,7 @@ footer {
 .fa-stop-circle:before { content: '\f28d'; }
 .fa-stop-circle-o:before { content: '\f28e'; }
 .fa-wait-spin:before { content: '\e834'; }
+.fa-link-ext:before { content: '\f08e'; }
 .fa-folder-o:before { content: '\f114'; }
 .fa-file-o:before { content: '\e813'; }
 .fa-upload:before { content: '\e814'; }
