@@ -870,6 +870,13 @@ a .block:hover, .block-link .block:hover {
 	display: none;
 }
 
+.ext-link::after {
+	content: '\f08e';
+	display: inline-block;
+	font-family: fontello;
+	margin-left: .25rem;
+}
+
 /* footer */
 footer {
 	background-color: #ECEFF1;
