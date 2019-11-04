@@ -18,12 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-__author__ = 'Niklas Rosenstein <rosensteinniklas@gmail.com>'
-__version__ = '1.1.0'
-
 import flask
-import os
-
 app = flask.Flask(__name__)
-app.template_folder = os.path.join(os.path.dirname(__file__), 'templates')
-app.static_folder = os.path.join(os.path.dirname(__file__), 'static')
+from . import views

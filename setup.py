@@ -1,41 +1,31 @@
 
-import os
+import io
+import re
 import setuptools
 import sys
 
-def package_files(directory):
-  paths = []
-  for (path, directories, filenames) in os.walk(directory):
-    for filename in filenames:
-      paths.append(os.path.join('..', path, filename))
-  return paths
+with io.open('src/flux/__init__.py', encoding='utf8') as fp:
+  version = re.search(r"__version__\s*=\s*'(.*)'", fp.read()).group(1)
 
-if sys.version[:3] < '3.4':
-  raise EnvironmentError('Flux CI is not compatible with Python {}'
-                         .format(sys.version[:3]))
+with io.open('.\\README.md', encoding='utf8') as fp:
+  long_description = fp.read()
 
-with open('README.md') as fp:
-  readme = fp.read()
-
-with open('requirements.txt') as fp:
-  requirements = fp.readlines()
+requirements = ['Flask>=0.10.1', 'pony>=0.7.3', 'pyOpenSSL>=0.15.1', 'cryptography>=2.0', 'nr.fs<=1.5.0,<1.6.0', 'nr.types>=4.0.0,<5.0.0', 'requests']
 
 setuptools.setup(
   name = 'flux-ci',
-  version = '1.1.0',
+  version = version,
   author = 'Niklas Rosenstein',
   author_email = 'rosensteinniklas@gmail.com',
-  description = 'Flux is your own private CI server.',
-  long_description = readme,
+  description = 'Flux-CI is your own lightweight CI server.',
+  long_description = long_description,
   long_description_content_type = 'text/markdown',
-  license = 'MIT',
   url = 'https://github.com/NiklasRosenstein/flux-ci',
+  license = 'MIT',
+  packages = setuptools.find_packages('src'),
+  package_dir = {'': 'src'},
+  include_package_data = True,
   install_requires = requirements,
-  packages = setuptools.find_packages(),
-  package_data = {
-    'flux': package_files('flux/static') + package_files('flux/templates')
-  },
-  entry_points = dict(
-    console_scripts = ['flux-ci=flux.main:_entry_point']
-  )
+  python_requires = None,
+  entry_points = {}
 )

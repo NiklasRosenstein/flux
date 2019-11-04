@@ -1,0 +1,21 @@
+# https://git.niklasrosenstein.com/Python/dazzle
+
+name: flux-ci
+description: Flux-CI is your own lightweight CI server.
+license: MIT
+url: 'https://github.com/NiklasRosenstein/flux-ci'
+
+main_python_file: src/flux/__init__.py
+
+requirements:
+  - Flask>=0.10.1
+  - pony>=0.7.3
+  - pyOpenSSL>=0.15.1
+  - cryptography>=2.0
+  - nr.fs<=1.5.0,<1.6.0
+  - nr.types>=4.0.0,<5.0.0
+  - requests
+
+package_data:
+  - src/flux/server/static/**
+  - src/flux/server/templates/**
